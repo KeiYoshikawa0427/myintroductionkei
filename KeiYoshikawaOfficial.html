@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>のホームページ</title>
 
+  <script>
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+  </script>
+
   <style>
     :root {
       --bg: #f5f5f7;
@@ -350,10 +356,6 @@
       font-size: 13px;
     }
 
-    /*
-      スクロールに合わせて出現するアニメーション。
-      すべて同じ動きにせず、セクションごとにクラスを変えています。
-    */
     .reveal {
       opacity: 0;
       transition:
@@ -424,10 +426,6 @@
       transition-delay: 0.20s;
     }
 
-    /*
-      スマホ版。
-      Autoモードでは、画面幅が860px以下のときに自動で適用されます。
-    */
     @media (max-width: 860px) {
       .nav {
         height: auto;
@@ -490,10 +488,6 @@
       }
     }
 
-    /*
-      PC表示を強制するモード。
-      スマホ画面でもPC版の幅を保つため、横スクロールが発生します。
-    */
     body.mode-desktop {
       overflow-x: auto;
     }
@@ -556,10 +550,6 @@
       font-size: clamp(110px, 20vw, 260px);
     }
 
-    /*
-      スマホ表示を強制するモード。
-      PCで見ていても、中央にスマホ幅のサイトとして表示します。
-    */
     body.mode-mobile {
       background:
         radial-gradient(circle at top left, rgba(0, 113, 227, 0.16), transparent 30%),
@@ -569,8 +559,8 @@
 
     body.mode-mobile .site-frame {
       max-width: 430px;
-      margin: 24px auto;
-      border-radius: 38px;
+      margin: 0 auto;
+      border-radius: 0 0 38px 38px;
       overflow: hidden;
       background:
         radial-gradient(circle at top left, rgba(0, 113, 227, 0.16), transparent 30%),
@@ -798,26 +788,21 @@
   </div>
 
   <script>
-    /*
-      ページを開いた瞬間に前回のスクロール位置やURLの#位置へ飛ばないようにします。
-      これにより、読み込み直後は必ず最上部から始まります。
-    */
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "auto"
+      });
+
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
 
-    window.addEventListener("pageshow", () => {
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 0);
-    });
-
-    /*
-      表示切り替え。
-      Auto: 画面幅に応じて自動
-      PC: PC表示を強制
-      Smartphone: スマホ表示を強制
-    */
     const buttons = document.querySelectorAll(".view-button");
     const savedMode = localStorage.getItem("view-mode") || "auto";
 
@@ -839,19 +824,50 @@
       localStorage.setItem("view-mode", mode);
     }
 
+    setMode(savedMode);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      scrollToTop();
+    });
+
+    window.addEventListener("load", () => {
+      scrollToTop();
+
+      requestAnimationFrame(() => {
+        scrollToTop();
+
+        requestAnimationFrame(() => {
+          scrollToTop();
+        });
+      });
+
+      setTimeout(() => {
+        scrollToTop();
+      }, 100);
+    });
+
+    window.addEventListener("pageshow", () => {
+      scrollToTop();
+
+      setTimeout(() => {
+        scrollToTop();
+      }, 50);
+
+      setTimeout(() => {
+        scrollToTop();
+      }, 200);
+    });
+
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
         setMode(button.dataset.mode);
+
+        requestAnimationFrame(() => {
+          scrollToTop();
+        });
       });
     });
 
-    setMode(savedMode);
-
-    /*
-      スクロールに合わせたせり上がり。
-      画面内に入った要素だけ show を付けるので、
-      ページを開いた瞬間に下のセクションまで一気に表示されません。
-    */
     const targets = document.querySelectorAll(".reveal");
 
     const observer = new IntersectionObserver((entries) => {
