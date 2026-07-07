@@ -45,7 +45,10 @@
 
     .site-frame {
       width: 100%;
-      transition: max-width 0.35s ease, box-shadow 0.35s ease, border-radius 0.35s ease;
+      transition:
+        max-width 0.35s ease,
+        box-shadow 0.35s ease,
+        border-radius 0.35s ease;
     }
 
     header {
@@ -347,19 +350,82 @@
       font-size: 13px;
     }
 
+    /*
+      スクロールに合わせて出現するアニメーション。
+      すべて同じ動きにせず、セクションごとにクラスを変えています。
+    */
     .reveal {
       opacity: 0;
-      transform: translateY(34px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transition:
+        opacity 0.9s ease,
+        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.9s ease;
+      will-change: opacity, transform, filter;
     }
 
     .reveal.show {
       opacity: 1;
-      transform: translateY(0);
+      transform: translate(0, 0) scale(1) rotate(0deg);
+      filter: blur(0);
+    }
+
+    .rise-soft {
+      transform: translateY(32px) scale(0.98);
+      filter: blur(10px);
+    }
+
+    .rise-basic {
+      transform: translateY(48px);
+      filter: blur(2px);
+    }
+
+    .rise-left {
+      transform: translate(-52px, 54px);
+      filter: blur(3px);
+    }
+
+    .rise-right {
+      transform: translate(52px, 54px);
+      filter: blur(3px);
+    }
+
+    .rise-zoom {
+      transform: translateY(64px) scale(0.92);
+      filter: blur(8px);
+    }
+
+    .rise-rotate {
+      transform: translateY(58px) rotate(-2.8deg);
+      filter: blur(4px);
+    }
+
+    .rise-dynamic {
+      transform: translateY(86px) scale(0.90);
+      filter: blur(8px);
+    }
+
+    .delay-1 {
+      transition-delay: 0.04s;
+    }
+
+    .delay-2 {
+      transition-delay: 0.08s;
+    }
+
+    .delay-3 {
+      transition-delay: 0.12s;
+    }
+
+    .delay-4 {
+      transition-delay: 0.16s;
+    }
+
+    .delay-5 {
+      transition-delay: 0.20s;
     }
 
     /*
-      ここからスマホ版の見た目。
+      スマホ版。
       Autoモードでは、画面幅が860px以下のときに自動で適用されます。
     */
     @media (max-width: 860px) {
@@ -426,7 +492,7 @@
 
     /*
       PC表示を強制するモード。
-      スマホの画面でもPC版の幅を保つため、横スクロールが発生します。
+      スマホ画面でもPC版の幅を保つため、横スクロールが発生します。
     */
     body.mode-desktop {
       overflow-x: auto;
@@ -655,7 +721,7 @@
       <div class="orb one"></div>
       <div class="orb two"></div>
 
-      <div class="hero-inner reveal">
+      <div class="hero-inner reveal rise-soft">
         <div class="eyebrow">Personal Website</div>
         <h1>のホームページ</h1>
         <p class="lead">おはこんばんにちは。のホームページへようこそ。</p>
@@ -668,7 +734,7 @@
     </section>
 
     <main>
-      <section id="affiliation" class="push-section reveal">
+      <section id="affiliation" class="push-section reveal rise-basic delay-1">
         <div class="push-card">
           <span class="section-label">AFFILIATION</span>
           <h2 class="section-title">所属</h2>
@@ -678,7 +744,7 @@
         </div>
       </section>
 
-      <section id="research" class="push-section reveal">
+      <section id="research" class="push-section reveal rise-left delay-2">
         <div class="push-card dark">
           <span class="section-label">RESEARCH</span>
           <h2 class="section-title">研究</h2>
@@ -688,7 +754,7 @@
         </div>
       </section>
 
-      <section id="hobby" class="push-section reveal">
+      <section id="hobby" class="push-section reveal rise-right delay-3">
         <div class="push-card">
           <span class="section-label">HOBBY</span>
           <h2 class="section-title">趣味</h2>
@@ -698,7 +764,7 @@
         </div>
       </section>
 
-      <section id="favorite" class="push-section reveal">
+      <section id="favorite" class="push-section reveal rise-zoom delay-4">
         <div class="push-card dark">
           <span class="section-label">FAVORITE MEN</span>
           <h2 class="section-title">好きなめん</h2>
@@ -708,7 +774,7 @@
         </div>
       </section>
 
-      <section id="unfavorite" class="push-section reveal">
+      <section id="unfavorite" class="push-section reveal rise-rotate delay-5">
         <div class="push-card">
           <span class="section-label">UNFAVORITE MEN</span>
           <h2 class="section-title">嫌いなめん</h2>
@@ -718,7 +784,7 @@
         </div>
       </section>
 
-      <section id="contact" class="contact-card reveal">
+      <section id="contact" class="contact-card reveal rise-dynamic">
         <span class="section-label">CONTACT</span>
         <h2 class="section-title">連絡先</h2>
         <div class="mail"> | -at- </div>
@@ -732,20 +798,26 @@
   </div>
 
   <script>
-    const targets = document.querySelectorAll(".reveal");
+    /*
+      ページを開いた瞬間に前回のスクロール位置やURLの#位置へ飛ばないようにします。
+      これにより、読み込み直後は必ず最上部から始まります。
+    */
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("show");
-        }
-      });
-    }, {
-      threshold: 0.16
+    window.addEventListener("pageshow", () => {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
     });
 
-    targets.forEach((target) => observer.observe(target));
-
+    /*
+      表示切り替え。
+      Auto: 画面幅に応じて自動
+      PC: PC表示を強制
+      Smartphone: スマホ表示を強制
+    */
     const buttons = document.querySelectorAll(".view-button");
     const savedMode = localStorage.getItem("view-mode") || "auto";
 
@@ -774,6 +846,29 @@
     });
 
     setMode(savedMode);
+
+    /*
+      スクロールに合わせたせり上がり。
+      画面内に入った要素だけ show を付けるので、
+      ページを開いた瞬間に下のセクションまで一気に表示されません。
+    */
+    const targets = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.18,
+      rootMargin: "0px 0px -8% 0px"
+    });
+
+    targets.forEach((target) => {
+      observer.observe(target);
+    });
   </script>
 </body>
 </html>
