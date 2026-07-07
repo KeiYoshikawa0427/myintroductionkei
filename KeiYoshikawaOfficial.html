@@ -43,6 +43,11 @@
       overflow-x: hidden;
     }
 
+    .site-frame {
+      width: 100%;
+      transition: max-width 0.35s ease, box-shadow 0.35s ease, border-radius 0.35s ease;
+    }
+
     header {
       position: sticky;
       top: 0;
@@ -54,11 +59,12 @@
 
     .nav {
       width: min(1120px, calc(100% - 40px));
-      height: 54px;
+      min-height: 56px;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 20px;
       font-size: 14px;
     }
 
@@ -66,6 +72,15 @@
       font-weight: 700;
       letter-spacing: -0.03em;
       color: var(--text);
+      white-space: nowrap;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .nav-links {
@@ -85,8 +100,35 @@
       color: var(--text);
     }
 
+    .view-switch {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .view-button {
+      border: none;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--subtext);
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .view-button.active {
+      background: #ffffff;
+      color: var(--text);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10);
+    }
+
     .hero {
-      min-height: calc(100vh - 54px);
+      min-height: calc(100vh - 56px);
       display: grid;
       place-items: center;
       text-align: center;
@@ -184,6 +226,7 @@
       0%, 100% {
         transform: translateY(0) scale(1);
       }
+
       50% {
         transform: translateY(-24px) scale(1.05);
       }
@@ -315,14 +358,23 @@
       transform: translateY(0);
     }
 
+    /*
+      ここからスマホ版の見た目。
+      Autoモードでは、画面幅が860px以下のときに自動で適用されます。
+    */
     @media (max-width: 860px) {
       .nav {
         height: auto;
-        min-height: 54px;
+        min-height: 56px;
         padding: 12px 0;
         align-items: flex-start;
-        gap: 10px;
         flex-direction: column;
+      }
+
+      .nav-right {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
       }
 
       .nav-links {
@@ -331,7 +383,16 @@
       }
 
       .hero {
-        min-height: calc(100vh - 92px);
+        min-height: calc(100vh - 140px);
+        padding: 64px 20px 72px;
+      }
+
+      h1 {
+        font-size: clamp(44px, 16vw, 68px);
+      }
+
+      .lead {
+        font-size: 20px;
       }
 
       .push-section {
@@ -340,109 +401,335 @@
       }
 
       .push-card {
+        padding: 32px 24px;
         border-radius: 30px;
       }
 
+      .section-title {
+        font-size: clamp(40px, 13vw, 56px);
+      }
+
+      .section-text {
+        font-size: 20px;
+      }
+
       .big-word {
+        font-size: 120px;
         opacity: 0.7;
+      }
+
+      .contact-card {
+        margin: 48px 0 80px;
+        border-radius: 30px;
+      }
+    }
+
+    /*
+      PC表示を強制するモード。
+      スマホの画面でもPC版の幅を保つため、横スクロールが発生します。
+    */
+    body.mode-desktop {
+      overflow-x: auto;
+    }
+
+    body.mode-desktop .site-frame {
+      min-width: 1040px;
+    }
+
+    body.mode-desktop .nav {
+      width: min(1120px, calc(100% - 40px));
+      min-height: 56px;
+      padding: 0;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    body.mode-desktop .nav-right {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    body.mode-desktop .nav-links {
+      gap: 22px;
+      justify-content: flex-end;
+    }
+
+    body.mode-desktop .hero {
+      min-height: calc(100vh - 56px);
+      padding: 80px 20px 100px;
+    }
+
+    body.mode-desktop h1 {
+      font-size: clamp(52px, 9vw, 116px);
+    }
+
+    body.mode-desktop .lead {
+      font-size: clamp(20px, 2.5vw, 30px);
+    }
+
+    body.mode-desktop .push-section {
+      min-height: 82vh;
+      padding: 80px 0;
+    }
+
+    body.mode-desktop .push-card {
+      padding: clamp(34px, 6vw, 72px);
+      border-radius: 42px;
+    }
+
+    body.mode-desktop .section-title {
+      font-size: clamp(42px, 7vw, 88px);
+    }
+
+    body.mode-desktop .section-text {
+      font-size: clamp(20px, 2.5vw, 30px);
+    }
+
+    body.mode-desktop .big-word {
+      font-size: clamp(110px, 20vw, 260px);
+    }
+
+    /*
+      スマホ表示を強制するモード。
+      PCで見ていても、中央にスマホ幅のサイトとして表示します。
+    */
+    body.mode-mobile {
+      background:
+        radial-gradient(circle at top left, rgba(0, 113, 227, 0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(180, 180, 255, 0.18), transparent 30%),
+        #d9d9de;
+    }
+
+    body.mode-mobile .site-frame {
+      max-width: 430px;
+      margin: 24px auto;
+      border-radius: 38px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(0, 113, 227, 0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(180, 180, 255, 0.18), transparent 30%),
+        var(--bg);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.24);
+    }
+
+    body.mode-mobile header {
+      position: sticky;
+      top: 0;
+    }
+
+    body.mode-mobile .nav {
+      width: calc(100% - 28px);
+      height: auto;
+      min-height: 56px;
+      padding: 12px 0;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    body.mode-mobile .nav-right {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    body.mode-mobile .nav-links {
+      gap: 12px 14px;
+      justify-content: flex-start;
+    }
+
+    body.mode-mobile .nav a {
+      font-size: 13px;
+    }
+
+    body.mode-mobile .view-button {
+      font-size: 11px;
+      padding: 5px 10px;
+    }
+
+    body.mode-mobile .hero {
+      min-height: calc(100vh - 180px);
+      padding: 58px 20px 72px;
+    }
+
+    body.mode-mobile .eyebrow {
+      font-size: 15px;
+    }
+
+    body.mode-mobile h1 {
+      font-size: clamp(42px, 15vw, 64px);
+      letter-spacing: -0.07em;
+    }
+
+    body.mode-mobile .lead {
+      font-size: 19px;
+    }
+
+    body.mode-mobile main {
+      width: calc(100% - 28px);
+    }
+
+    body.mode-mobile .push-section {
+      min-height: auto;
+      padding: 32px 0;
+    }
+
+    body.mode-mobile .push-card {
+      padding: 32px 22px;
+      border-radius: 28px;
+    }
+
+    body.mode-mobile .section-label {
+      font-size: 13px;
+    }
+
+    body.mode-mobile .section-title {
+      font-size: clamp(38px, 13vw, 54px);
+    }
+
+    body.mode-mobile .section-text {
+      font-size: 19px;
+    }
+
+    body.mode-mobile .section-note {
+      font-size: 14px;
+    }
+
+    body.mode-mobile .big-word {
+      font-size: 112px;
+      opacity: 0.65;
+    }
+
+    body.mode-mobile .contact-card {
+      margin: 42px 0 70px;
+      padding: 30px 22px;
+      border-radius: 28px;
+    }
+
+    body.mode-mobile .mail {
+      font-size: 24px;
+    }
+
+    body.mode-mobile footer {
+      width: calc(100% - 28px);
+    }
+
+    @media (max-width: 500px) {
+      body.mode-mobile .site-frame {
+        max-width: none;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
       }
     }
   </style>
 </head>
 
 <body>
-  <header>
-    <nav class="nav">
-      <div class="logo">のホームページ</div>
-      <div class="nav-links">
-        <a href="#affiliation">所属</a>
-        <a href="#research">研究</a>
-        <a href="#hobby">趣味</a>
-        <a href="#favorite">好きなめん</a>
-        <a href="#unfavorite">嫌いなめん</a>
-        <a href="#contact">連絡先</a>
-      </div>
-    </nav>
-  </header>
+  <div class="site-frame">
+    <header>
+      <nav class="nav">
+        <div class="logo">のホームページ</div>
 
-  <section class="hero">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
+        <div class="nav-right">
+          <div class="nav-links">
+            <a href="#affiliation">所属</a>
+            <a href="#research">研究</a>
+            <a href="#hobby">趣味</a>
+            <a href="#favorite">好きなめん</a>
+            <a href="#unfavorite">嫌いなめん</a>
+            <a href="#contact">連絡先</a>
+          </div>
 
-    <div class="hero-inner reveal">
-      <div class="eyebrow">Personal Website</div>
-      <h1>のホームページ</h1>
-      <p class="lead">おはこんばんにちは。のホームページへようこそ。</p>
+          <div class="view-switch" aria-label="表示切り替え">
+            <button class="view-button active" type="button" data-mode="auto">Auto</button>
+            <button class="view-button" type="button" data-mode="desktop">PC</button>
+            <button class="view-button" type="button" data-mode="mobile">Smartphone</button>
+          </div>
+        </div>
+      </nav>
+    </header>
 
-      <div class="hero-actions">
-        <a class="button primary" href="#affiliation">見る</a>
-        <a class="button secondary" href="#contact">連絡先</a>
-      </div>
-    </div>
-  </section>
+    <section class="hero">
+      <div class="orb one"></div>
+      <div class="orb two"></div>
 
-  <main>
-    <section id="affiliation" class="push-section reveal">
-      <div class="push-card">
-        <span class="section-label">AFFILIATION</span>
-        <h2 class="section-title">所属</h2>
-        <p class="section-text">所属：</p>
-        <p class="section-note">ここに大学、学部、研究室などを書けます。</p>
-        <div class="big-word">01</div>
-      </div>
-    </section>
+      <div class="hero-inner reveal">
+        <div class="eyebrow">Personal Website</div>
+        <h1>のホームページ</h1>
+        <p class="lead">おはこんばんにちは。のホームページへようこそ。</p>
 
-    <section id="research" class="push-section reveal">
-      <div class="push-card dark">
-        <span class="section-label">RESEARCH</span>
-        <h2 class="section-title">研究</h2>
-        <p class="section-text">研究：</p>
-        <p class="section-note">ここに研究テーマや関心分野を書けます。</p>
-        <div class="big-word">02</div>
+        <div class="hero-actions">
+          <a class="button primary" href="#affiliation">見る</a>
+          <a class="button secondary" href="#contact">連絡先</a>
+        </div>
       </div>
     </section>
 
-    <section id="hobby" class="push-section reveal">
-      <div class="push-card">
-        <span class="section-label">HOBBY</span>
-        <h2 class="section-title">趣味</h2>
-        <p class="section-text">散歩、ゲーム、ピアノ</p>
-        <p class="section-note">趣味を少し説明する文章を追加しても自然です。</p>
-        <div class="big-word">03</div>
-      </div>
-    </section>
+    <main>
+      <section id="affiliation" class="push-section reveal">
+        <div class="push-card">
+          <span class="section-label">AFFILIATION</span>
+          <h2 class="section-title">所属</h2>
+          <p class="section-text">所属：</p>
+          <p class="section-note">ここに大学、学部、研究室などを書けます。</p>
+          <div class="big-word">01</div>
+        </div>
+      </section>
 
-    <section id="favorite" class="push-section reveal">
-      <div class="push-card dark">
-        <span class="section-label">FAVORITE MEN</span>
-        <h2 class="section-title">好きなめん</h2>
-        <p class="section-text">ラーメン</p>
-        <p class="section-note">食べ物としての「めん」を押し出すセクションです。</p>
-        <div class="big-word">04</div>
-      </div>
-    </section>
+      <section id="research" class="push-section reveal">
+        <div class="push-card dark">
+          <span class="section-label">RESEARCH</span>
+          <h2 class="section-title">研究</h2>
+          <p class="section-text">研究：</p>
+          <p class="section-note">ここに研究テーマや関心分野を書けます。</p>
+          <div class="big-word">02</div>
+        </div>
+      </section>
 
-    <section id="unfavorite" class="push-section reveal">
-      <div class="push-card">
-        <span class="section-label">UNFAVORITE MEN</span>
-        <h2 class="section-title">嫌いなめん</h2>
-        <p class="section-text">アーメン</p>
-        <p class="section-note">言葉遊びとして独立して見せる構成にしています。</p>
-        <div class="big-word">05</div>
-      </div>
-    </section>
+      <section id="hobby" class="push-section reveal">
+        <div class="push-card">
+          <span class="section-label">HOBBY</span>
+          <h2 class="section-title">趣味</h2>
+          <p class="section-text">散歩、ゲーム、ピアノ</p>
+          <p class="section-note">趣味を少し説明する文章を追加しても自然です。</p>
+          <div class="big-word">03</div>
+        </div>
+      </section>
 
-    <section id="contact" class="contact-card reveal">
-      <span class="section-label">CONTACT</span>
-      <h2 class="section-title">連絡先</h2>
-      <div class="mail"> | -at- </div>
-      <p>「-at-」を「@」に変えてください。</p>
-    </section>
-  </main>
+      <section id="favorite" class="push-section reveal">
+        <div class="push-card dark">
+          <span class="section-label">FAVORITE MEN</span>
+          <h2 class="section-title">好きなめん</h2>
+          <p class="section-text">ラーメン</p>
+          <p class="section-note">食べ物としての「めん」を押し出すセクションです。</p>
+          <div class="big-word">04</div>
+        </div>
+      </section>
 
-  <footer>
-    © のホームページ
-  </footer>
+      <section id="unfavorite" class="push-section reveal">
+        <div class="push-card">
+          <span class="section-label">UNFAVORITE MEN</span>
+          <h2 class="section-title">嫌いなめん</h2>
+          <p class="section-text">アーメン</p>
+          <p class="section-note">言葉遊びとして独立して見せる構成にしています。</p>
+          <div class="big-word">05</div>
+        </div>
+      </section>
+
+      <section id="contact" class="contact-card reveal">
+        <span class="section-label">CONTACT</span>
+        <h2 class="section-title">連絡先</h2>
+        <div class="mail"> | -at- </div>
+        <p>「-at-」を「@」に変えてください。</p>
+      </section>
+    </main>
+
+    <footer>
+      © のホームページ
+    </footer>
+  </div>
 
   <script>
     const targets = document.querySelectorAll(".reveal");
@@ -458,6 +745,35 @@
     });
 
     targets.forEach((target) => observer.observe(target));
+
+    const buttons = document.querySelectorAll(".view-button");
+    const savedMode = localStorage.getItem("view-mode") || "auto";
+
+    function setMode(mode) {
+      document.body.classList.remove("mode-desktop", "mode-mobile");
+
+      if (mode === "desktop") {
+        document.body.classList.add("mode-desktop");
+      }
+
+      if (mode === "mobile") {
+        document.body.classList.add("mode-mobile");
+      }
+
+      buttons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.mode === mode);
+      });
+
+      localStorage.setItem("view-mode", mode);
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setMode(button.dataset.mode);
+      });
+    });
+
+    setMode(savedMode);
   </script>
 </body>
 </html>
