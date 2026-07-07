@@ -366,6 +366,12 @@
       text-wrap: balance;
     }
 
+    .research-main {
+      font-size: clamp(26px, 4.1vw, 52px);
+      line-height: 1.30;
+      letter-spacing: -0.032em;
+    }
+
     .main-line {
       display: block;
       max-width: 100%;
@@ -621,6 +627,12 @@
         letter-spacing: -0.028em;
       }
 
+      .research-main {
+        font-size: clamp(21px, 6.3vw, 30px);
+        line-height: 1.45;
+        letter-spacing: -0.018em;
+      }
+
       .section-sub {
         font-size: 15px;
         line-height: 1.75;
@@ -708,6 +720,10 @@
 
     body.mode-desktop .section-main {
       font-size: clamp(28px, 4.7vw, 60px);
+    }
+
+    body.mode-desktop .research-main {
+      font-size: clamp(26px, 4.1vw, 52px);
     }
 
     body.mode-desktop .section-sub {
@@ -818,6 +834,12 @@
       letter-spacing: -0.025em;
     }
 
+    body.mode-mobile .research-main {
+      font-size: clamp(20px, 5.9vw, 29px);
+      line-height: 1.48;
+      letter-spacing: -0.015em;
+    }
+
     body.mode-mobile .section-sub {
       font-size: 15px;
       line-height: 1.76;
@@ -918,6 +940,12 @@
         letter-spacing: -0.028em;
       }
 
+      body.mode-desktop .research-main {
+        font-size: clamp(21px, 6.3vw, 30px);
+        line-height: 1.45;
+        letter-spacing: -0.018em;
+      }
+
       body.mode-desktop .big-word {
         right: -0.02em;
         bottom: -0.18em;
@@ -995,9 +1023,11 @@
         <div class="push-card dark">
           <span class="section-label">RESEARCH</span>
           <h2 class="section-title">研究</h2>
-          <p class="section-main">
-            <span class="main-line">超新星残骸の衝撃波面からの</span>
-            <span class="main-line">可視光シンクロトロン放射の観測</span>
+          <p class="section-main research-main">
+            <span class="main-line">超新星残骸の</span>
+            <span class="main-line">衝撃波面からの</span>
+            <span class="main-line">可視光シンクロトロン</span>
+            <span class="main-line">放射の観測</span>
           </p>
           <p class="section-sub">Tycho’s SNR を可視光望遠鏡AGEHAで狙う。</p>
           <div class="big-word">02</div>
