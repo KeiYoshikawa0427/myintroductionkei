@@ -10,10 +10,11 @@
       --bg: #f5f5f7;
       --text: #1d1d1f;
       --subtext: #6e6e73;
-      --card: rgba(255, 255, 255, 0.72);
+      --card: rgba(255, 255, 255, 0.78);
       --border: rgba(0, 0, 0, 0.08);
       --accent: #0071e3;
-      --shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+      --dark: #111111;
+      --shadow: 0 30px 90px rgba(0, 0, 0, 0.14);
     }
 
     * {
@@ -33,11 +34,11 @@
         "Hiragino Sans",
         "Yu Gothic",
         sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(0, 113, 227, 0.16), transparent 32%),
-        radial-gradient(circle at top right, rgba(160, 160, 255, 0.18), transparent 30%),
-        var(--bg);
       color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(0, 113, 227, 0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(180, 180, 255, 0.18), transparent 30%),
+        var(--bg);
       line-height: 1.7;
       overflow-x: hidden;
     }
@@ -45,16 +46,16 @@
     header {
       position: sticky;
       top: 0;
-      z-index: 10;
-      backdrop-filter: blur(20px);
-      background: rgba(245, 245, 247, 0.72);
+      z-index: 100;
+      backdrop-filter: blur(22px);
+      background: rgba(245, 245, 247, 0.74);
       border-bottom: 1px solid var(--border);
     }
 
     .nav {
-      width: min(1080px, calc(100% - 40px));
+      width: min(1120px, calc(100% - 40px));
+      height: 54px;
       margin: 0 auto;
-      height: 52px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -64,12 +65,19 @@
     .logo {
       font-weight: 700;
       letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .nav a {
       color: var(--subtext);
       text-decoration: none;
-      margin-left: 24px;
       transition: color 0.2s ease;
     }
 
@@ -78,7 +86,7 @@
     }
 
     .hero {
-      min-height: calc(100vh - 52px);
+      min-height: calc(100vh - 54px);
       display: grid;
       place-items: center;
       text-align: center;
@@ -91,34 +99,34 @@
     }
 
     .eyebrow {
-      font-size: 18px;
+      margin-bottom: 12px;
       color: var(--accent);
+      font-size: 18px;
       font-weight: 700;
       letter-spacing: 0.02em;
-      margin-bottom: 12px;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(48px, 9vw, 112px);
+      font-size: clamp(52px, 9vw, 116px);
       line-height: 0.95;
       letter-spacing: -0.075em;
-      font-weight: 800;
+      font-weight: 850;
     }
 
     .lead {
+      max-width: 720px;
       margin: 28px auto 0;
-      max-width: 680px;
-      font-size: clamp(19px, 2.4vw, 28px);
       color: var(--subtext);
-      letter-spacing: -0.03em;
+      font-size: clamp(20px, 2.5vw, 30px);
+      letter-spacing: -0.04em;
     }
 
     .hero-actions {
-      margin-top: 36px;
+      margin-top: 38px;
       display: flex;
-      gap: 14px;
       justify-content: center;
+      gap: 14px;
       flex-wrap: wrap;
     }
 
@@ -129,13 +137,13 @@
       min-height: 44px;
       padding: 0 22px;
       border-radius: 999px;
-      font-size: 16px;
       text-decoration: none;
+      font-size: 16px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .button.primary {
-      color: white;
+      color: #ffffff;
       background: var(--accent);
       box-shadow: 0 12px 30px rgba(0, 113, 227, 0.24);
     }
@@ -151,24 +159,24 @@
 
     .orb {
       position: absolute;
-      width: 340px;
-      height: 340px;
+      width: 360px;
+      height: 360px;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(0, 113, 227, 0.24), rgba(255, 255, 255, 0.4));
+      background: linear-gradient(135deg, rgba(0, 113, 227, 0.22), rgba(255, 255, 255, 0.42));
       filter: blur(2px);
-      opacity: 0.75;
+      opacity: 0.76;
       z-index: -1;
       animation: float 8s ease-in-out infinite;
     }
 
     .orb.one {
-      left: -120px;
-      bottom: 10%;
+      left: -130px;
+      bottom: 12%;
     }
 
     .orb.two {
-      right: -140px;
-      top: 14%;
+      right: -150px;
+      top: 12%;
       animation-delay: -3s;
     }
 
@@ -182,103 +190,123 @@
     }
 
     main {
-      width: min(1080px, calc(100% - 40px));
+      width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
-      padding-bottom: 96px;
     }
 
-    .section-title {
-      margin: 0 0 28px;
-      font-size: clamp(34px, 5vw, 64px);
-      line-height: 1.05;
-      letter-spacing: -0.06em;
-    }
-
-    .profile-grid {
+    .push-section {
+      min-height: 82vh;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      align-items: center;
+      padding: 80px 0;
     }
 
-    .card {
-      min-height: 220px;
-      padding: 28px;
-      border-radius: 32px;
+    .push-card {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(34px, 6vw, 72px);
+      border-radius: 42px;
       background: var(--card);
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(24px);
-      transition: transform 0.28s ease, box-shadow 0.28s ease;
+      backdrop-filter: blur(26px);
     }
 
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.16);
+    .push-card.dark {
+      color: #ffffff;
+      background:
+        radial-gradient(circle at top right, rgba(0, 113, 227, 0.35), transparent 34%),
+        #111111;
     }
 
-    .card.large {
-      grid-column: span 2;
-    }
-
-    .label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 14px;
-      color: var(--subtext);
-      font-weight: 700;
-      letter-spacing: 0.06em;
-    }
-
-    .value {
-      margin: 0;
-      font-size: clamp(22px, 3vw, 34px);
-      line-height: 1.25;
-      letter-spacing: -0.04em;
-      font-weight: 750;
-    }
-
-    .small-value {
-      margin: 0;
-      color: var(--subtext);
-      font-size: 17px;
-    }
-
-    .contact {
-      margin-top: 18px;
-      padding: 22px 24px;
-      border-radius: 24px;
-      background: #111;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .contact p {
-      margin: 0;
+    .push-card.dark .section-label,
+    .push-card.dark .section-text,
+    .push-card.dark .section-note {
       color: rgba(255, 255, 255, 0.72);
     }
 
+    .section-label {
+      display: block;
+      margin-bottom: 18px;
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 88px);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
+      font-weight: 850;
+    }
+
+    .section-text {
+      max-width: 760px;
+      margin: 28px 0 0;
+      color: var(--subtext);
+      font-size: clamp(20px, 2.5vw, 30px);
+      line-height: 1.45;
+      letter-spacing: -0.04em;
+    }
+
+    .section-note {
+      margin-top: 24px;
+      color: var(--subtext);
+      font-size: 15px;
+    }
+
+    .big-word {
+      position: absolute;
+      right: -0.05em;
+      bottom: -0.28em;
+      font-size: clamp(110px, 20vw, 260px);
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.09em;
+      color: rgba(0, 0, 0, 0.045);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .push-card.dark .big-word {
+      color: rgba(255, 255, 255, 0.08);
+    }
+
+    .contact-card {
+      margin: 60px 0 100px;
+      padding: clamp(32px, 5vw, 56px);
+      border-radius: 36px;
+      background: var(--dark);
+      color: #ffffff;
+      box-shadow: var(--shadow);
+    }
+
     .mail {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      margin-top: 20px;
+      font-size: clamp(24px, 4vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+
+    .contact-card p {
+      margin: 16px 0 0;
+      color: rgba(255, 255, 255, 0.68);
     }
 
     footer {
-      width: min(1080px, calc(100% - 40px));
+      width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
-      padding: 32px 0 48px;
+      padding: 34px 0 48px;
+      border-top: 1px solid var(--border);
       color: var(--subtext);
       font-size: 13px;
-      border-top: 1px solid var(--border);
     }
 
     .reveal {
       opacity: 0;
-      transform: translateY(28px);
+      transform: translateY(34px);
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
@@ -287,26 +315,36 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 780px) {
-      .nav a {
-        margin-left: 14px;
+    @media (max-width: 860px) {
+      .nav {
+        height: auto;
+        min-height: 54px;
+        padding: 12px 0;
+        align-items: flex-start;
+        gap: 10px;
+        flex-direction: column;
       }
 
-      .profile-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card.large {
-        grid-column: span 1;
-      }
-
-      .card {
-        min-height: 180px;
-        border-radius: 26px;
+      .nav-links {
+        gap: 14px;
+        justify-content: flex-start;
       }
 
       .hero {
-        padding-top: 64px;
+        min-height: calc(100vh - 92px);
+      }
+
+      .push-section {
+        min-height: auto;
+        padding: 36px 0;
+      }
+
+      .push-card {
+        border-radius: 30px;
+      }
+
+      .big-word {
+        opacity: 0.7;
       }
     }
   </style>
@@ -316,10 +354,13 @@
   <header>
     <nav class="nav">
       <div class="logo">のホームページ</div>
-      <div>
-        <a href="#about">About</a>
-        <a href="#profile">Profile</a>
-        <a href="#contact">Contact</a>
+      <div class="nav-links">
+        <a href="#affiliation">所属</a>
+        <a href="#research">研究</a>
+        <a href="#hobby">趣味</a>
+        <a href="#favorite">好きなめん</a>
+        <a href="#unfavorite">嫌いなめん</a>
+        <a href="#contact">連絡先</a>
       </div>
     </nav>
   </header>
@@ -334,49 +375,67 @@
       <p class="lead">おはこんばんにちは。のホームページへようこそ。</p>
 
       <div class="hero-actions">
-        <a class="button primary" href="#profile">プロフィールを見る</a>
-        <a class="button secondary" href="#contact">連絡先を見る</a>
+        <a class="button primary" href="#affiliation">見る</a>
+        <a class="button secondary" href="#contact">連絡先</a>
       </div>
     </div>
   </section>
 
   <main>
-    <section id="about" class="reveal">
-      <h2 class="section-title">シンプルに、印象的に。</h2>
-    </section>
-
-    <section id="profile" class="profile-grid">
-      <article class="card large reveal">
-        <span class="label">所属</span>
-        <p class="value">所属：</p>
-      </article>
-
-      <article class="card reveal">
-        <span class="label">研究</span>
-        <p class="value">研究：</p>
-      </article>
-
-      <article class="card reveal">
-        <span class="label">趣味</span>
-        <p class="value">散歩、ゲーム、ピアノ</p>
-      </article>
-
-      <article class="card reveal">
-        <span class="label">好きなめん</span>
-        <p class="value">ラーメン</p>
-      </article>
-
-      <article class="card reveal">
-        <span class="label">嫌いなめん</span>
-        <p class="value">アーメン</p>
-      </article>
-    </section>
-
-    <section id="contact" class="contact reveal">
-      <div>
-        <span class="label">連絡先</span>
-        <div class="mail"> | -at- </div>
+    <section id="affiliation" class="push-section reveal">
+      <div class="push-card">
+        <span class="section-label">AFFILIATION</span>
+        <h2 class="section-title">所属</h2>
+        <p class="section-text">所属：</p>
+        <p class="section-note">ここに大学、学部、研究室などを書けます。</p>
+        <div class="big-word">01</div>
       </div>
+    </section>
+
+    <section id="research" class="push-section reveal">
+      <div class="push-card dark">
+        <span class="section-label">RESEARCH</span>
+        <h2 class="section-title">研究</h2>
+        <p class="section-text">研究：</p>
+        <p class="section-note">ここに研究テーマや関心分野を書けます。</p>
+        <div class="big-word">02</div>
+      </div>
+    </section>
+
+    <section id="hobby" class="push-section reveal">
+      <div class="push-card">
+        <span class="section-label">HOBBY</span>
+        <h2 class="section-title">趣味</h2>
+        <p class="section-text">散歩、ゲーム、ピアノ</p>
+        <p class="section-note">趣味を少し説明する文章を追加しても自然です。</p>
+        <div class="big-word">03</div>
+      </div>
+    </section>
+
+    <section id="favorite" class="push-section reveal">
+      <div class="push-card dark">
+        <span class="section-label">FAVORITE MEN</span>
+        <h2 class="section-title">好きなめん</h2>
+        <p class="section-text">ラーメン</p>
+        <p class="section-note">食べ物としての「めん」を押し出すセクションです。</p>
+        <div class="big-word">04</div>
+      </div>
+    </section>
+
+    <section id="unfavorite" class="push-section reveal">
+      <div class="push-card">
+        <span class="section-label">UNFAVORITE MEN</span>
+        <h2 class="section-title">嫌いなめん</h2>
+        <p class="section-text">アーメン</p>
+        <p class="section-note">言葉遊びとして独立して見せる構成にしています。</p>
+        <div class="big-word">05</div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-card reveal">
+      <span class="section-label">CONTACT</span>
+      <h2 class="section-title">連絡先</h2>
+      <div class="mail"> | -at- </div>
       <p>「-at-」を「@」に変えてください。</p>
     </section>
   </main>
